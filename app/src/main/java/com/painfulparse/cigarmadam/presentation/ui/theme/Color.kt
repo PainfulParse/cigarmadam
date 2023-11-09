@@ -1,4 +1,4 @@
-package com.painfulparse.cigarmadam.ui.theme
+package com.painfulparse.cigarmadam.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

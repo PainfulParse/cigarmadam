@@ -1,4 +1,4 @@
-package com.painfulparse.cigarmadam.ui.theme
+package com.painfulparse.cigarmadam.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
