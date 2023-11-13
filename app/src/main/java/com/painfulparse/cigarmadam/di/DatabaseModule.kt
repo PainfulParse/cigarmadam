@@ -2,10 +2,10 @@ package com.painfulparse.cigarmadam.di
 
 import android.content.Context
 import androidx.room.Room
-import com.painfulparse.cigarmadam.data.repository.CigarRepositoryImpl
-import com.painfulparse.cigarmadam.data.source.local.CigarDao
-import com.painfulparse.cigarmadam.data.source.local.CigarDatabase
-import com.painfulparse.cigarmadam.domain.repository.CigarRepository
+import com.painfulparse.cigarmadam.feature_cigars.data.repository.CigarRepositoryImpl
+import com.painfulparse.cigarmadam.feature_cigars.data.source.local.CigarDao
+import com.painfulparse.cigarmadam.feature_cigars.data.source.local.CigarDatabase
+import com.painfulparse.cigarmadam.feature_cigars.domain.repository.CigarRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

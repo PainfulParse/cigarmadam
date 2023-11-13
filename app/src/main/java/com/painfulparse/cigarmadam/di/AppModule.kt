@@ -1,9 +1,9 @@
 package com.painfulparse.cigarmadam.di
 
-import com.painfulparse.cigarmadam.domain.usecases.AddCigar
-import com.painfulparse.cigarmadam.domain.usecases.DeleteCigar
-import com.painfulparse.cigarmadam.domain.usecases.GetAllCigars
-import com.painfulparse.cigarmadam.domain.usecases.base.UseCaseProvider
+import com.painfulparse.cigarmadam.feature_cigars.domain.usecases.AddCigar
+import com.painfulparse.cigarmadam.feature_cigars.domain.usecases.DeleteCigar
+import com.painfulparse.cigarmadam.feature_cigars.domain.usecases.GetAllCigars
+import com.painfulparse.cigarmadam.feature_cigars.domain.usecases.CigarUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,11 +14,11 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
     @Provides
-    fun provideUseCaseProvider(
+    fun provideCigarUseCases(
         getAllCigars: GetAllCigars,
         addCigar: AddCigar,
         deleteCigar: DeleteCigar
-    ): UseCaseProvider {
-        return UseCaseProvider(getAllCigars, addCigar, deleteCigar)
+    ): CigarUseCases {
+        return CigarUseCases(getAllCigars, addCigar, deleteCigar)
     }
 }
