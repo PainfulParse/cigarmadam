@@ -10,3 +10,9 @@ data class CigarInventoryState(
     val isLoading: Boolean = false,
     val error: String? = null
 )
+
+sealed class CigarUiState {
+    object Saving : CigarUiState()
+    object Loading : CigarUiState()
+    data class Error(val message: String) : CigarUiState()
+}

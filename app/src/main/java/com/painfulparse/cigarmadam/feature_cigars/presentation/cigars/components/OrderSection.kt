@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,7 +24,9 @@ fun OrderSection(
         modifier = modifier
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize()
         ) {
             DefaultRadioButton(
                 text = "Brand",
@@ -53,22 +57,22 @@ fun OrderSection(
                 selected = cigarOrder is CigarOrder.Wrapper,
                 onSelect = { onOrderChange(CigarOrder.Wrapper(cigarOrder.orderType)) }
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                DefaultRadioButton(
-                    text = "Ascending",
-                    selected = cigarOrder.orderType is OrderType.Ascending,
-                    onSelect = { onOrderChange(cigarOrder.copy(OrderType.Ascending)) }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                DefaultRadioButton(
-                    text = "Descending",
-                    selected = cigarOrder.orderType is OrderType.Descending,
-                    onSelect = { onOrderChange(cigarOrder.copy(OrderType.Descending)) }
-                )
-            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DefaultRadioButton(
+                text = "Ascending",
+                selected = cigarOrder.orderType is OrderType.Ascending,
+                onSelect = { onOrderChange(cigarOrder.copy(OrderType.Ascending)) }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            DefaultRadioButton(
+                text = "Descending",
+                selected = cigarOrder.orderType is OrderType.Descending,
+                onSelect = { onOrderChange(cigarOrder.copy(OrderType.Descending)) }
+            )
         }
     }
 }

@@ -7,6 +7,8 @@ sealed class CigarEvent {
 
     data class Order(val cigarOrder: CigarOrder): CigarEvent()
 
+    data class AddCigar(val cigar: Cigar): CigarEvent()
+
     data class DeleteCigar(val cigar: Cigar): CigarEvent()
 
     object RestoreCigar: CigarEvent()

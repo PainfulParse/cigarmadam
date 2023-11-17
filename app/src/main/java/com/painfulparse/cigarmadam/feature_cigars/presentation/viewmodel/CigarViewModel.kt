@@ -10,10 +10,12 @@ import com.painfulparse.cigarmadam.feature_cigars.domain.util.CigarOrder
 import com.painfulparse.cigarmadam.feature_cigars.domain.util.OrderType
 import com.painfulparse.cigarmadam.feature_cigars.presentation.cigars.CigarEvent
 import com.painfulparse.cigarmadam.feature_cigars.presentation.state.CigarInventoryState
+import com.painfulparse.cigarmadam.feature_cigars.presentation.state.CigarUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,10 +23,13 @@ class CigarViewModel @Inject constructor(
     private val cigarUseCases: CigarUseCases
 ) : ViewModel() {
 
+    private val _uiState = mutableStateOf<CigarUiState>(CigarUiState.Loading)
     private val _state = mutableStateOf(CigarInventoryState())
     val state: State<CigarInventoryState> = _state
+    val cigarUiState: State<CigarUiState> = _uiState
 
     private var getAllCigarsJob: Job? = null
+    private var addCigarJob: Job? = null
     private var recentlyDeletedCigar: Cigar? = null
 
     init {
@@ -37,6 +42,7 @@ class CigarViewModel @Inject constructor(
             is CigarEvent.Order -> TODO()
             is CigarEvent.RestoreCigar -> TODO()
             is CigarEvent.ToggleOrderSection -> TODO()
+            is CigarEvent.AddCigar -> addCigar(cigarEvent.cigar)
         }
     }
 
@@ -51,4 +57,19 @@ class CigarViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    private fun addCigar(cigar: Cigar) {
+        addCigarJob?.cancel()
+        addCigarJob = viewModelScope.launch {
+            _uiState.value = CigarUiState.Saving
+            try {
+                cigarUseCases.addCigar(cigar)
+                fetchCigars(state.value.cigarOrder)
+                _uiState.value = CigarUiState.Saving
+            } catch (e: Exception) {
+                _uiState.value = CigarUiState.Error(e.message ?: "Unknown Error")
+            }
+        }
+    }
 }
+

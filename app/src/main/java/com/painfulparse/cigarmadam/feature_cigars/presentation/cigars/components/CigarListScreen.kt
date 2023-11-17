@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -12,7 +14,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,23 +25,21 @@ import androidx.navigation.NavController
 import com.painfulparse.cigarmadam.feature_cigars.presentation.viewmodel.CigarViewModel
 
 @Composable
-fun CigarListScreen(navController: NavController) {
-    val viewModel: CigarViewModel = hiltViewModel()
+fun CigarListScreen(viewModel: CigarViewModel, navController: NavController) {
+    val cigarList = viewModel.state.value.cigars
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text("Cigar Madam")
-                },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.ArrowBack, "backIcon")
-                    }
-                },
+                title = { Text("Cigar Madam") },
                 backgroundColor = MaterialTheme.colors.primary,
                 contentColor = Color.White,
-                elevation = 10.dp
+                elevation = 10.dp,
+                actions = {
+                    IconButton(onClick = { navController.navigate("AddCigarScreen") }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add Cigar")
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -47,11 +47,17 @@ fun CigarListScreen(navController: NavController) {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(MaterialTheme.colors.onError),
+                .background(MaterialTheme.colors.onPrimary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Testing")
+            LazyColumn {
+                items(cigarList) { cigar ->
+                    CigarItem(cigar = cigar) {
+                        // Handle item click if needed
+                    }
+                }
+            }
         }
     }
 }
